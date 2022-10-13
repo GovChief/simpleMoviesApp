@@ -70,19 +70,26 @@ public class MovieListFragment extends BaseFragment<MovieListState> {
         if (movieListState instanceof MovieListState.Loading) {
             binding.loadingBar.setVisibility(View.VISIBLE);
             binding.moviesRecyclerView.setVisibility(View.GONE);
-            binding.errorMessage.setVisibility(View.GONE);
+            binding.infoMessage.setVisibility(View.GONE);
         } else if (movieListState instanceof MovieListState.Loaded) {
             MovieListState.Loaded listState = (MovieListState.Loaded) movieListState;
 
             binding.loadingBar.setVisibility(View.GONE);
-            binding.errorMessage.setVisibility(View.GONE);
+            binding.infoMessage.setVisibility(View.GONE);
             binding.moviesRecyclerView.setVisibility(View.VISIBLE);
             adapter.setItems(listState.movies);
         } else if (movieListState instanceof MovieListState.UnkownError) {
             binding.loadingBar.setVisibility(View.GONE);
-            binding.errorMessage.setVisibility(View.GONE);
             binding.moviesRecyclerView.setVisibility(View.GONE);
-            binding.errorMessage.setVisibility(View.VISIBLE);
+            binding.infoMessage.setVisibility(View.VISIBLE);
+
+            binding.infoMessage.setText(R.string.error_occured_please_refresh_the_screen);
+        } else if (movieListState instanceof  MovieListState.Empty) {
+            binding.loadingBar.setVisibility(View.GONE);
+            binding.moviesRecyclerView.setVisibility(View.GONE);
+            binding.infoMessage.setVisibility(View.VISIBLE);
+
+            binding.infoMessage.setText(R.string.empty_search);
         }
     }
 

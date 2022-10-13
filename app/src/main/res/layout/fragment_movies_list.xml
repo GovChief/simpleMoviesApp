@@ -46,7 +46,7 @@
         app:srcCompat="@android:drawable/ic_popup_sync"/>
 
     <TextView
-        android:id="@+id/errorMessage"
+        android:id="@+id/infoMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/error_occured_please_refresh_the_screen"

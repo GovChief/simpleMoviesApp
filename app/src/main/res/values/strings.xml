@@ -8,5 +8,6 @@
     <string name="something_went_wrong_with_retry">Something went wrong please retry or go back</string>
     <string name="retry">Retry</string>
     <string name="type_in_a_movie_title">Type in a movie title</string>
+    <string name="empty_search">No movies matching the search!</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

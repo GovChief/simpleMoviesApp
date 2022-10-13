@@ -134,7 +134,11 @@ class MovieListViewModel extends BaseViewModel<MovieListState> {
             @Override
             public void onSuccess(List<UiMovie> uiMovies) {
                 movies.addAll(uiMovies);
-                setState(new MovieListState.Loaded(movies));
+                if (movies.isEmpty()) {
+                    setState(new MovieListState.Empty());
+                } else {
+                    setState(new MovieListState.Loaded(movies));
+                }
                 isLoading = false;
                 nextPage++;
             }
