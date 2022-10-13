@@ -1,12 +1,11 @@
 package com.jakov.trakt.moviestraktapp.domain.use_case.get_movies;
 
-import com.jakov.trakt.moviestraktapp.data.remote.OmdbApiService;
-import com.jakov.trakt.moviestraktapp.data.remote.TraktApiService;
-import com.jakov.trakt.moviestraktapp.data.remote.response.MoviePosterResponse;
+import com.jakov.trakt.moviestraktapp.data.remote.ApiService;
 import com.jakov.trakt.moviestraktapp.data.ui_model.UiMovie;
 import com.jakov.trakt.moviestraktapp.domain.mappers.movie_mapper.MovieMappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -16,32 +15,22 @@ import io.reactivex.schedulers.Schedulers;
 
 class GetMoviesUseCase implements GetMovies {
 
-    private final TraktApiService traktApiService;
-    private final OmdbApiService omdbApiService;
+    private final ApiService apiService;
     private final MovieMappers.MovieMapper movieMapper;
 
     @Inject
     public GetMoviesUseCase(
-        TraktApiService apiService,
-        OmdbApiService omdbApiService,
+        ApiService apiService,
         MovieMappers.MovieMapper movieMapper
     ) {
-        this.traktApiService = apiService;
-        this.omdbApiService = omdbApiService;
+        this.apiService = apiService;
         this.movieMapper = movieMapper;
     }
 
     @Override
     public Single<List<UiMovie>> execute(int pageNum) {
-        return traktApiService.getMovies(pageNum)
-            .flattenAsFlowable(moviesResponses -> moviesResponses)
-            .map(moviesResponse ->
-                omdbApiService.getMoviePoster(moviesResponse.movie.ids.imdb)
-                    .onErrorReturn(throwable -> new MoviePosterResponse())
-                    .map(moviePosterResponse -> movieMapper.mapToUiModel(moviesResponse.movie, moviePosterResponse)
-                    ).blockingGet()
-            )
-            .toList()
+        return apiService.getPopularMovies(pageNum)
+            .map(movies -> movies.results.stream().map(movieMapper::mapToUiModel).collect(Collectors.toList()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
     }

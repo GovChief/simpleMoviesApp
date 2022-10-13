@@ -1,5 +1,6 @@
 package com.jakov.trakt.moviestraktapp.ui.list;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,14 +23,27 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListVi
     private final LoadMoreItemsListener loadMoreItemsListener;
     private final OnMovieClickListener onClickListener;
     private List<UiMovie> items = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     public MovieListAdapter(LoadMoreItemsListener loadMoreItemsListener, OnMovieClickListener onClickListener) {
         this.loadMoreItemsListener = loadMoreItemsListener;
         this.onClickListener = onClickListener;
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
+
     public void setItems(List<UiMovie> items) {
-        this.items = items;
+        if (items.size() < this.items.size()) {
+            recyclerView.scrollToPosition(0);
+        } else if (items.size() == this.items.size() && items == this.items) {
+            recyclerView.scrollToPosition(0);
+        }
+        this.items.clear();
+        this.items.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -70,7 +84,7 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListVi
         public void bindViewHolder(UiMovie movie, OnMovieClickListener onClickListener) {
             binding.movieTitle.setText(movie.title);
             binding.getRoot().setOnClickListener(view -> onClickListener.onMoveClicked(movie));
-            Glide.with(binding.getRoot()).setDefaultRequestOptions(RequestOptions.timeoutOf(5)).load(movie.imageCover)
+            Glide.with(binding.getRoot()).load(movie.imageCover)
                 .placeholder(R.drawable.ic_cinema).error(R.drawable.ic_cinema).into(binding.movieCover);
         }
     }

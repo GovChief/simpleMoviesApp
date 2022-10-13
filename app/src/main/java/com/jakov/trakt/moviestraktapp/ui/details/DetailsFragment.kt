@@ -44,7 +44,7 @@ import okio.IOException
 class DetailsScreen : BaseFragment<DetailsState>() {
 
     companion object {
-        const val IMDB_ID_EXTRA = "IMDB_ID_EXTRA"
+        const val ID_EXTRA = "ID_EXTRA"
     }
 
     private val viewModel: DetailsViewModel by viewModels()
@@ -71,8 +71,8 @@ class DetailsScreen : BaseFragment<DetailsState>() {
     }
 
     private fun initViewModel() {
-        val imdbId = arguments?.getString(IMDB_ID_EXTRA) ?: throw IOException()
-        viewModel.init(imdbId)
+        val id = arguments?.getInt(ID_EXTRA) ?: throw IOException()
+        viewModel.init(id)
     }
 }
 
@@ -132,13 +132,13 @@ private fun Content(movie: UiMovieDetails) {
             ) {
                 Info(
                     modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.year),
-                    value = movie.year
+                    title = stringResource(R.string.release_date),
+                    value = movie.releaseDate
                 )
                 Info(
                     modifier = Modifier.weight(1f),
                     title = stringResource(R.string.genre),
-                    value = movie.genre
+                    value = movie.genres
                 )
             }
         }
@@ -155,8 +155,8 @@ private fun Content(movie: UiMovieDetails) {
                 )
                 Info(
                     modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.director),
-                    value = movie.director
+                    title = stringResource(R.string.countries),
+                    value = movie.countries
                 )
             }
         }

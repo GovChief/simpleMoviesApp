@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'TRAKT_API_KEY', '"4b44d6800580c790a3a415f50f2c0e7973e6335446c2ec396b03db10535928f9"'
         buildConfigField 'String', 'OMDB_API_KEY', '"ea8ab7a0"'
+        buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', '"03b8572954325680265531140190fd2a"'
     }
 
     buildTypes {

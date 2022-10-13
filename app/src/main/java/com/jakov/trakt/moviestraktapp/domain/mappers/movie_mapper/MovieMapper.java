@@ -1,6 +1,5 @@
 package com.jakov.trakt.moviestraktapp.domain.mappers.movie_mapper;
 
-import com.jakov.trakt.moviestraktapp.data.remote.response.MoviePosterResponse;
 import com.jakov.trakt.moviestraktapp.data.remote.response.MovieResponse;
 import com.jakov.trakt.moviestraktapp.data.ui_model.UiMovie;
 
@@ -16,10 +15,11 @@ public class MovieMapper implements MovieMappers.MovieMapper {
 
     @NonNull
     @Override
-    public UiMovie mapToUiModel(@NonNull MovieResponse movieNetworkModel, @NonNull MoviePosterResponse posterNetworkModel) {
+    public UiMovie mapToUiModel(@NonNull MovieResponse networkModel) {
         return new UiMovie(
-            movieNetworkModel.title,
-            posterNetworkModel.getPosterUrl(),
-            movieNetworkModel.ids.imdb);
+            networkModel.id,
+            networkModel.title,
+            "https://image.tmdb.org/t/p/w500" + networkModel.posterPath
+        );
     }
 }

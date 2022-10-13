@@ -6,18 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jakov.trakt.moviestraktapp.R;
-import com.jakov.trakt.moviestraktapp.data.ui_model.UiMovie;
 import com.jakov.trakt.moviestraktapp.databinding.FragmentMoviesListBinding;
+import com.jakov.trakt.moviestraktapp.shared.OnTextChangeListener;
 import com.jakov.trakt.moviestraktapp.ui.base.BaseFragment;
 import com.jakov.trakt.moviestraktapp.ui.base.BaseViewModel;
 import com.jakov.trakt.moviestraktapp.ui.details.DetailsScreen;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -54,7 +51,7 @@ public class MovieListFragment extends BaseFragment<MovieListState> {
 
         adapter = new MovieListAdapter(viewModel::loadNextPage, movie -> {
             Bundle bundle = new Bundle();
-            bundle.putString(DetailsScreen.IMDB_ID_EXTRA, movie.imdbId);
+            bundle.putInt(DetailsScreen.ID_EXTRA, movie.id);
             Navigation.findNavController(view).navigate(R.id.action_MovieListFragment_to_DetailsFragment, bundle);
         });
         binding.moviesRecyclerView.setAdapter(adapter);
@@ -63,6 +60,9 @@ public class MovieListFragment extends BaseFragment<MovieListState> {
             adapter.clearItems();
             viewModel.refresh();
         });
+
+        binding.textInputLayout.getEditText()
+            .addTextChangedListener((OnTextChangeListener) (text) -> viewModel.setSearchText(text));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class MovieListFragment extends BaseFragment<MovieListState> {
             binding.errorMessage.setVisibility(View.GONE);
             binding.moviesRecyclerView.setVisibility(View.VISIBLE);
             adapter.setItems(listState.movies);
-        } else if (movieListState instanceof  MovieListState.UnkownError){
+        } else if (movieListState instanceof MovieListState.UnkownError) {
             binding.loadingBar.setVisibility(View.GONE);
             binding.errorMessage.setVisibility(View.GONE);
             binding.moviesRecyclerView.setVisibility(View.GONE);
