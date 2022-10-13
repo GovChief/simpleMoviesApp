@@ -4,9 +4,12 @@ import com.squareup.moshi.Json;
 
 public class MovieResponse {
 
+    @Json(name = "id")
+    public int id;
+
     @Json(name = "title")
     public String title;
 
-    @Json(name = "ids")
-    public IdsResponse ids;
+    @Json(name = "poster_path")
+    public String posterPath;
 }

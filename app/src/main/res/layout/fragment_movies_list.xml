@@ -20,15 +20,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/moviesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginEnd="@dimen/spacing1x"
         android:layout_marginStart="@dimen/spacing1x"
         android:orientation="vertical"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:spanCount="2"
         tools:itemCount="3"
         tools:listitem="@layout/item_movie"
@@ -45,7 +46,7 @@
         app:srcCompat="@android:drawable/ic_popup_sync"/>
 
     <TextView
-        android:id="@+id/errorMessage"
+        android:id="@+id/infoMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/error_occured_please_refresh_the_screen"
@@ -55,4 +56,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:hint="@string/type_in_a_movie_title"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

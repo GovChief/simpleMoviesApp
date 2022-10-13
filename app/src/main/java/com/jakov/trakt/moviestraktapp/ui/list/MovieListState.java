@@ -18,4 +18,6 @@ class MovieListState {
     }
 
     static class UnkownError extends MovieListState {}
+
+    static class Empty extends MovieListState {}
 }

@@ -13,10 +13,10 @@ class DetailsViewModel @Inject constructor(
     private val getMovieDetails: GetMovieDetails
 ) : BaseViewModel<DetailsState>() {
 
-    fun init(imdbId: String) {
+    fun init(id: Int) {
         viewModelScope.launch {
             try {
-                val movie = getMovieDetails(imdbId)
+                val movie = getMovieDetails(id)
 
                 setState(DetailsState.Loaded(movie))
             } catch (e: Exception) {
