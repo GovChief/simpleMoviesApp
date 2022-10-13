@@ -56,6 +56,9 @@ class MovieListViewModel extends BaseViewModel<MovieListState> {
         searchDisposable = publishSubject.debounce(SEARCH_DEBOUNCE, TimeUnit.MILLISECONDS)
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe(searchText -> {
+                    if (searchText.equals(previousSearchText)) {
+                        return;
+                    }
                     if (searchText.length() >= MIN_SEARCH_TEXT_LENGTH) {
                         this.previousSearchText = searchText;
                         resetCalls();

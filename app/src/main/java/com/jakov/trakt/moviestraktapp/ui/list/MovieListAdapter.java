@@ -1,11 +1,9 @@
 package com.jakov.trakt.moviestraktapp.ui.list;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.jakov.trakt.moviestraktapp.R;
 import com.jakov.trakt.moviestraktapp.data.ui_model.UiMovie;
 import com.jakov.trakt.moviestraktapp.databinding.ItemMovieBinding;
@@ -22,7 +20,7 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListVi
 
     private final LoadMoreItemsListener loadMoreItemsListener;
     private final OnMovieClickListener onClickListener;
-    private List<UiMovie> items = new ArrayList<>();
+    private final List<UiMovie> items = new ArrayList<>();
     private RecyclerView recyclerView;
 
     public MovieListAdapter(LoadMoreItemsListener loadMoreItemsListener, OnMovieClickListener onClickListener) {
@@ -39,8 +37,10 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListVi
     public void setItems(List<UiMovie> items) {
         if (items.size() < this.items.size()) {
             recyclerView.scrollToPosition(0);
-        } else if (items.size() == this.items.size() && items == this.items) {
+        } else if (items.size() == this.items.size() && !items.equals(this.items)) {
             recyclerView.scrollToPosition(0);
+        } else if (items.size() == this.items.size()) {
+            return;
         }
         this.items.clear();
         this.items.addAll(items);
